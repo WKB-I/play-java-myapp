@@ -1,6 +1,9 @@
 package controllers;
 
 import play.mvc.*;
+import akka.util.*;
+import java.util.*;
+import play.http.*;
 
 /**
  * This controller contains an action to handle HTTP requests
@@ -15,7 +18,13 @@ public class HomeController extends Controller {
      * <code>GET</code> request with a path of <code>/</code>.
      */
     public Result index() {
-        return ok("Welcome to Play Framework!!");
+        return new Result(
+          new ResponseHeader(200, new HashMap<>()),
+          new HttpEntity.Strict(
+                  ByteString.fromString("This is sample text."),
+                  Optional.ofNullable("text/plain")
+          )
+        );
     }
 
 }
