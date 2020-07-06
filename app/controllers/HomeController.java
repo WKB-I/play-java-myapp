@@ -18,8 +18,8 @@ public class HomeController extends Controller {
      * <code>GET</code> request with a path of <code>/</code>.
      */
     public Result index() {
-        return ok("<root><title>Hello!</title><message>This is sample message.</message></root>")
-                .as("application/xml");
+        return ok("{title:'Hello!', message:'This is sample message.'}")
+                .as("application/json");
     }
 
 }
