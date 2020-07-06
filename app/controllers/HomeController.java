@@ -18,13 +18,8 @@ public class HomeController extends Controller {
      * <code>GET</code> request with a path of <code>/</code>.
      */
     public Result index() {
-        return new Result(
-          new ResponseHeader(200, new HashMap<>()),
-          new HttpEntity.Strict(
-                  ByteString.fromString("This is sample text."),
-                  Optional.ofNullable("text/plain")
-          )
-        );
+        return ok("<h1>Hello!</h1><p>This is sample message.</p>")
+                .as("text/html");
     }
 
 }
