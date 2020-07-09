@@ -18,10 +18,8 @@ public class HomeController extends Controller {
      * this method will be called when the application receives a
      * <code>GET</code> request with a path of <code>/</code>.
      */
-    public Result index() {
-        response().setHeader(ACCEPT_CHARSET, "utf-8");
-        response().setHeader(ACCEPT_LANGUAGE, "ja-JP");
-        return ok("<title>Hello!</title><h1>Hello!</h1><p>サンプルのメッセージ。</p>")
+    public Result index(int id) {
+        return ok("<title>Hello!</title><h1>Hello!</h1><p>ID ="+ id + "です。</p>")
                 .as("text/html");
     }
 }
