@@ -18,8 +18,8 @@ public class HomeController extends Controller {
      * this method will be called when the application receives a
      * <code>GET</code> request with a path of <code>/</code>.
      */
-    public Result index(int id) {
-        return ok("<title>Hello!</title><h1>Hello!</h1><p>ID ="+ id + "です。</p>")
+    public Result index(int id, String name) {
+        return ok("<title>Hello!</title><h1>Hello!</h1><p>ID ="+ id + ", NAME = "+ name + "です。</p>")
                 .as("text/html");
     }
 }
