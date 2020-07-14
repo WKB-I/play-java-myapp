@@ -15,19 +15,14 @@ public class HomeController extends Controller {
      * this method will be called when the application receives a
      * <code>GET</code> request with a path of <code>/</code>.
      */
-    public Result index(Optional<String> name) {
-        String param = name.orElse("");
-        String message = "<p>name is not exist.</p>";
-        if(param != ""){
-            message = "<p>send name.</p>";
-            session("name", param);
+    public Result index(Optional<String> name, Optional<String> value) {
+        String s_name = name.orElse("");
+        String s_value = value.orElse("");
+        if(s_name != ""){
+            session(s_name, s_value);
         }
-        String sessionvalue = session("name");
-        if(sessionvalue == null){
-            message += "<p>session: no-session.</p>";
-        }else{
-            message += "<p>session: " + sessionvalue + "</p>";
-        }
+        Map sessions = session();
+        String message = "<pre>" + sessions + "</p>";
         return ok("<title>Hello!</title><h1>Hello!</h1>" + message).as("text/html");
     }
 }
