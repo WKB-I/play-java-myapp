@@ -1,11 +1,8 @@
 package controllers;
 
 import play.mvc.*;
-import akka.util.*;
 
-import java.net.http.HttpRequest;
 import java.util.*;
-import play.http.*;
 
 /**
  * This controller contains an action to handle HTTP requests
@@ -20,17 +17,16 @@ public class HomeController extends Controller {
      */
     public Result index(Optional<String> name) {
         String param = name.orElse("");
-        String message = "<p>nameはありません。</p>";
+        String message = "<p>name is not exist.</p>";
         if(param != ""){
-            message = "<p>nameが送られました。</p>";
-            Http.Cookie newcookie = Http.Cookie.builder("name", param).build();
-            response().setCookie(newcookie);
+            message = "<p>send name.</p>";
+            session("name", param);
         }
-        Http.Cookie cookie = request().cookie("name");
-        if(cookie == null){
-            message += "<p>cookie: no-cookie.</p>";
+        String sessionvalue = session("name");
+        if(sessionvalue == null){
+            message += "<p>session: no-session.</p>";
         }else{
-            message += "<p>cookie: " + cookie.value() + "</p>";
+            message += "<p>session: " + sessionvalue + "</p>";
         }
         return ok("<title>Hello!</title><h1>Hello!</h1>" + message).as("text/html");
     }
