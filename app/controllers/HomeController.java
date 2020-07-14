@@ -15,15 +15,8 @@ public class HomeController extends Controller {
      * this method will be called when the application receives a
      * <code>GET</code> request with a path of <code>/</code>.
      */
-    public Result index(Optional<String> name, Optional<String> value) {
-        String s_name = name.orElse("");
-        String s_value = value.orElse("");
-        if(s_name != ""){
-            session(s_name, s_value);
-        }
-        Map sessions = session();
-        String message = "<pre>" + sessions + "</p>";
-        return ok("<title>Hello!</title><h1>Hello!</h1>" + message).as("text/html");
+    public Result index() {
+        return ok(views.html.index.render());
     }
 }
 
