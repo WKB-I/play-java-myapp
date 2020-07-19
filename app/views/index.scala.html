@@ -1,4 +1,4 @@
-@(id: Int, name: String, pass: String)
+@(cal:java.util.Calendar)
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -6,8 +6,6 @@
 </head>
 <body>
   <h1>Index</h1>
-  <p>ID: @id</p>
-  <p>Name: @name</p>
-  <p>Pass: @pass</p>
+  <p>@cal.getTime()</p>
 </body>
 </html>
