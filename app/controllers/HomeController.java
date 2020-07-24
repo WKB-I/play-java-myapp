@@ -16,12 +16,23 @@ public class HomeController extends Controller {
      * <code>GET</code> request with a path of <code>/</code>.
      */
     public Result index(Optional<Integer> p) {
-        List<String> arr = new ArrayList<String>();
-        arr.add("Yamada Taro");
-        arr.add("Tanaka Hanako");
-        arr.add("Ogawa Sachiko");
+        List<List<String>> arr = new ArrayList<List<String>>(
+                Arrays.asList(
+                        new ArrayList<String>(
+                                Arrays.asList("Taro","taro@yamada","999-999")
+                        ),
+                        new ArrayList<String>(
+                                Arrays.asList("hanako","hanako@flower","888-888")
+                        ),
+                        new ArrayList<String>(
+                                Arrays.asList("sachiko","sachiko@tekito","777-777")
+                        )
+                )
+        );
         return ok(views.html.index.render(
-                "This is setController message",arr
+                "This is setController message"
+                , arr
+                , new ArrayList(Arrays.asList("Name","Mail","Tel"))
         ));
     }
 }
