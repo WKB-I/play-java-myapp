@@ -15,24 +15,18 @@ public class HomeController extends Controller {
      * this method will be called when the application receives a
      * <code>GET</code> request with a path of <code>/</code>.
      */
-    public Result index(Optional<Integer> p) {
-        List<List<String>> arr = new ArrayList<List<String>>(
-                Arrays.asList(
-                        new ArrayList<String>(
-                                Arrays.asList("Taro","taro@yamada","999-999")
-                        ),
-                        new ArrayList<String>(
-                                Arrays.asList("hanako","hanako@flower","888-888")
-                        ),
-                        new ArrayList<String>(
-                                Arrays.asList("sachiko","sachiko@tekito","777-777")
-                        )
-                )
-        );
+    public Result index() {
         return ok(views.html.index.render(
-                "This is setController message"
-                , arr
-                , new ArrayList(Arrays.asList("Name","Mail","Tel"))
+                "This is a message I prepared for you at the controller."
+        ));
+    }
+
+    public Result form(){
+        Map<String, String[]> param = request().body().asFormUrlEncoded();
+        String name = param.get("name")[0];
+        String password = param.get("name")[0];
+        return ok(views.html.index.render(
+           "name:" + name + ", password:" + password
         ));
     }
 }
