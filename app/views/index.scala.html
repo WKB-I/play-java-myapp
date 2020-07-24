@@ -1,9 +1,9 @@
-@(message:String, p:Int)
+@(message:String, arr:java.util.List[String])
 @main("Index Page", "Hello", "copyright 2020."){
     <p>@message</p>
-    @if(p % 2 == 0){
-        <p>@p は偶数です</p>
-    }else{
-        <p>@p は奇数です</p>
+    <ol>
+    @for(item <- arr){
+        <li>@item</li>
     }
+    </ol>
 }

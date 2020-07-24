@@ -16,8 +16,12 @@ public class HomeController extends Controller {
      * <code>GET</code> request with a path of <code>/</code>.
      */
     public Result index(Optional<Integer> p) {
+        List<String> arr = new ArrayList<String>();
+        arr.add("Yamada Taro");
+        arr.add("Tanaka Hanako");
+        arr.add("Ogawa Sachiko");
         return ok(views.html.index.render(
-                "This is setController message",p.orElse(new Integer(0))
+                "This is setController message",arr
         ));
     }
 }
