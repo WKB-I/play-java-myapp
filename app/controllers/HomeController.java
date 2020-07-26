@@ -31,8 +31,9 @@ public class HomeController extends Controller {
         MyForm myform = form.get();
         String name = myform.getName();
         String password = myform.getPassword();
+        String radio = myform.getRadio();
         return ok(views.html.index.render(
-           "This message is after send form.\n" + "name:" + name + ",password:" + password,
+           "This message is after send form.\n" + "name:" + name + ", password:" + password + ", radio:" + radio,
             form
         ));
     }
