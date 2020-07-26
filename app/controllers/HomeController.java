@@ -32,7 +32,7 @@ public class HomeController extends Controller {
         String name = myform.getName();
         String password = myform.getPassword();
         return ok(views.html.index.render(
-           "name:" + name + ",password:" + password,
+           "This message is after send form.\n" + "name:" + name + ",password:" + password,
             form
         ));
     }
