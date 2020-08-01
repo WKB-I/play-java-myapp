@@ -6,7 +6,7 @@ public class PersonForm {
     protected int id;
     protected String name;
     protected String mail;
-    protected String telephoneNumber;
+    protected String tel;
 
     public PersonForm(){
         super();
@@ -39,11 +39,11 @@ public class PersonForm {
         this.mail = mail;
     }
 
-    public String getTelephoneNumber() {
-        return telephoneNumber;
+    public String getTel() {
+        return tel;
     }
 
-    public void setTelephoneNumber(String telephoneNumber) {
-        this.telephoneNumber = telephoneNumber;
+    public void setTel(String telephoneNumber) {
+        this.tel = telephoneNumber;
     }
 }

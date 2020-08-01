@@ -47,7 +47,7 @@ public class HomeController extends Controller {
         PersonForm form = formdata.get();
         String name = form.getName();
         String mail = form.getMail();
-        String telephonenumber = form.getTelephoneNumber();
+        String telephonenumber = form.getTel();
         try{
             Connection connection = db.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("insert into people values(default, ?, ?, ?)");
@@ -71,7 +71,7 @@ public class HomeController extends Controller {
             PersonForm form = new PersonForm();
             form.setName(resultSet.getString("name"));
             form.setMail(resultSet.getString("mail"));
-            form.setTelephoneNumber(resultSet.getString("tel"));
+            form.setTel(resultSet.getString("tel"));
             formdata = personform.fill(form);
         }catch (SQLException e){
             return redirect(routes.HomeController.index());
@@ -84,13 +84,13 @@ public class HomeController extends Controller {
         PersonForm form = formdata.get();
         String name = form.getName();
         String mail = form.getMail();
-        String telephonenumber = form.getTelephoneNumber();
+        String tel = form.getTel();
         try{
             Connection connection = db.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("update people set name=?, mail=?, tel=? where id=?");
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, mail);
-            preparedStatement.setString(3, telephonenumber);
+            preparedStatement.setString(3, tel);
             preparedStatement.setInt(4, id);
             preparedStatement.executeUpdate();
         }catch (SQLException e){
@@ -109,7 +109,7 @@ public class HomeController extends Controller {
             form = new PersonForm(id);
             form.setName(resultSet.getString("name"));
             form.setMail(resultSet.getString("mail"));
-            form.setTelephoneNumber(resultSet.getString("tel"));
+            form.setTel(resultSet.getString("tel"));
         }catch (SQLException e){
             return redirect(routes.HomeController.index());
         }
