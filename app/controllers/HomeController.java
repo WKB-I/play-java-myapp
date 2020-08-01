@@ -98,5 +98,34 @@ public class HomeController extends Controller {
         }
         return redirect(routes.HomeController.index());
     }
+
+    public Result delete(int id){
+        PersonForm form = null;
+        try{
+            Connection connection = db.getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("select * from people where id =" + id);
+            resultSet.next();
+            form = new PersonForm(id);
+            form.setName(resultSet.getString("name"));
+            form.setMail(resultSet.getString("mail"));
+            form.setTelephoneNumber(resultSet.getString("tel"));
+        }catch (SQLException e){
+            return redirect(routes.HomeController.index());
+        }
+        return ok(views.html.delete.render("Delete this record.", form, id));
+    }
+
+    public Result remove(int id){
+        try {
+            Connection connection = db.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("delete from people where id=?");
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+        }catch (SQLException e){
+            return redirect(routes.HomeController.index());
+        }
+        return redirect(routes.HomeController.index());
+    }
 }
 
