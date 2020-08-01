@@ -61,5 +61,42 @@ public class HomeController extends Controller {
         return redirect(routes.HomeController.index());
     }
 
+    public Result edit(int id){
+        Form<PersonForm> formdata = null;
+        try {
+            Connection connection = db.getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("select * from people where id = " + id);
+            resultSet.next();
+            PersonForm form = new PersonForm();
+            form.setName(resultSet.getString("name"));
+            form.setMail(resultSet.getString("mail"));
+            form.setTelephoneNumber(resultSet.getString("tel"));
+            formdata = personform.fill(form);
+        }catch (SQLException e){
+            return redirect(routes.HomeController.index());
+        }
+        return ok(views.html.edit.render("Please edit the form content", formdata, id));
+    }
+
+    public Result update(int id){
+        Form<PersonForm> formdata = personform.bindFromRequest();
+        PersonForm form = formdata.get();
+        String name = form.getName();
+        String mail = form.getMail();
+        String telephonenumber = form.getTelephoneNumber();
+        try{
+            Connection connection = db.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("update people set name=?, mail=?, tel=? where id=?");
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, mail);
+            preparedStatement.setString(3, telephonenumber);
+            preparedStatement.setInt(4, id);
+            preparedStatement.executeUpdate();
+        }catch (SQLException e){
+            return ok(views.html.edit.render("Please edit the form content", formdata, id));
+        }
+        return redirect(routes.HomeController.index());
+    }
 }
 

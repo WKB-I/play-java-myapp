@@ -1,0 +1,12 @@
+@(message:String, form:Form[PersonForm], id:Int)
+
+@main("Edit Person", "Edit", "copyright 2020."){
+    <p>@message</p>
+    @helper.form(action=routes.HomeController.update(id)){
+        @helper.CSRF.formField
+        @helper.inputText(form("name"))
+        @helper.inputText(form("mail"))
+        @helper.inputText(form("telephonenumber"))
+        <button>Create Person</button>
+    }
+}
