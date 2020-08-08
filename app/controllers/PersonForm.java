@@ -4,7 +4,7 @@ import java.util.*;
 
 public class PersonForm {
     protected int id;
-    protected String name;
+    public String name;
     protected String mail;
     protected String tel;
 
@@ -43,7 +43,7 @@ public class PersonForm {
         return tel;
     }
 
-    public void setTel(String telephoneNumber) {
-        this.tel = telephoneNumber;
+    public void setTel(String tel) {
+        this.tel = tel;
     }
 }

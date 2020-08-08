@@ -4,6 +4,7 @@
     <p>@message</p>
     <p>ID = @id</p>
     <ul>
+        <li>name: @data.name</li>
     </ul>
     @helper.form(action=routes.HomeController.remove(id)){
         @helper.CSRF.formField
