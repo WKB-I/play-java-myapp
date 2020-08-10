@@ -1,4 +1,9 @@
-@(message:String)
+@(msg:String, data:List[PersonEntity])
 @main("Index Page", "Hello", "copyright 2020."){
-    <p>@Html(message)</p>
+    <p>@msg</p>
+    <ul>
+        @for(item<-data){
+            <li>@item</li>
+        }
+    </ul>
 }
