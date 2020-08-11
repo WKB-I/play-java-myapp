@@ -35,5 +35,11 @@ public class HomeController extends Controller {
             return ok(views.html.index.render("People List.", personlist));
         }, ec.current());
     }
+
+    public CompletionStage<Result> show(int id){
+        return personRepository.get(id).thenApplyAsync(p ->{
+            return ok(views.html.show.render("Show Person", p, id));
+        }, ec.current());
+    }
 }
 

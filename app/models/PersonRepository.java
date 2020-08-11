@@ -5,8 +5,9 @@ import java.util.concurrent.*;
 import java.util.function.*;
 import javax.inject.*;
 import javax.persistence.*;
+
+import models.jdatabase.DatabaseExecutionContext;
 import play.db.jpa.*;
-import play.libs.concurrent.*;
 
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 
@@ -33,5 +34,16 @@ public class PersonRepository {
 
     private List<PersonEntity> list(EntityManager em){
         return em.createQuery("select p from PersonEntity p", PersonEntity.class).getResultList();
+    }
+
+    public CompletionStage<PersonEntity> get(int id){
+        return supplyAsync(
+                () -> withTransaction(em -> get(em, id)),
+                executionContext
+        );
+    }
+
+    private PersonEntity get(EntityManager em, int id){
+        return em.find(PersonEntity.class, id);
     }
 }
