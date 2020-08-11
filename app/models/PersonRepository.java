@@ -46,4 +46,15 @@ public class PersonRepository {
     private PersonEntity get(EntityManager em, int id){
         return em.find(PersonEntity.class, id);
     }
+
+    public CompletionStage<PersonEntity> add(PersonEntity person){
+        return supplyAsync(
+                () -> withTransaction(em -> add(em, person)),
+                executionContext);
+    }
+
+    private PersonEntity add(EntityManager em, PersonEntity person){
+        em.persist(person);
+        return person;
+    }
 }

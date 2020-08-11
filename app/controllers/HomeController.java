@@ -41,5 +41,19 @@ public class HomeController extends Controller {
             return ok(views.html.show.render("Show Person", p, id));
         }, ec.current());
     }
+
+    public Result add(){
+        return ok(views.html.add.render(
+                "Please fill out the form.",
+                personform
+                ));
+    }
+
+    public CompletionStage<Result> create(){
+        PersonEntity person = formFactory.form(PersonEntity.class).bindFromRequest().get();
+        return personRepository.add(person).thenApplyAsync(p -> {
+            return redirect(routes.HomeController.index());
+        }, ec.current());
+    }
 }
 
