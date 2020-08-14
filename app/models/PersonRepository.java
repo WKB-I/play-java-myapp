@@ -81,4 +81,15 @@ public class PersonRepository {
         em.remove(p);
         return p;
     }
+
+    public CompletionStage<List<PersonEntity>> find(String find){
+        return supplyAsync(
+                () -> withTransaction(em -> find(em, find)),
+                executionContext);
+    }
+
+    private List<PersonEntity> find(EntityManager em, String find){
+        return em.createQuery("select p from PersonEntity p where name like ?1", PersonEntity.class).
+                setParameter(1, "%" + find + "%").getResultList();
+    }
 }

@@ -91,5 +91,23 @@ public class HomeController extends Controller {
         }, ec.current());
     }
 
+    public Result find(){
+        return ok(views.html.find.render(
+           "Please enter your search text",
+            formFactory.form(PersonFind.class),
+            new ArrayList<PersonEntity>()
+        ));
+    }
+
+    public CompletionStage<Result> search(){
+        Form<PersonFind> form = formFactory.form(PersonFind.class).bindFromRequest();
+        String find = form.get().getFind();
+        return personRepository.find(find).thenApplyAsync(p -> {
+            return ok(views.html.find.render(
+                "find word：" + find, form, p
+            ));
+        }, ec.current());
+    }
+
 }
 
