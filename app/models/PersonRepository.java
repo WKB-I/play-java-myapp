@@ -68,4 +68,17 @@ public class PersonRepository {
         em.merge(person);
         return person;
     }
+
+    public CompletionStage<PersonEntity> delete(int id){
+        return supplyAsync(
+                () -> withTransaction(em -> delete(em, id)),
+                executionContext
+        );
+    }
+
+    private PersonEntity delete(EntityManager em, int id){
+        PersonEntity p = get(em, id);
+        em.remove(p);
+        return p;
+    }
 }

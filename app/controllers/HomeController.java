@@ -76,5 +76,20 @@ public class HomeController extends Controller {
             return redirect(routes.HomeController.index());
         }, ec.current());
     }
+
+    public CompletionStage<Result> delete(int id){
+        return personRepository.get(id).thenApplyAsync(p -> {
+            return ok(views.html.delete.render(
+                    "Delete Person", p, id
+            ));
+        }, ec.current());
+    }
+
+    public CompletionStage<Result> remove(int id){
+        return personRepository.delete(id).thenApplyAsync(p -> {
+            return redirect(routes.HomeController.index());
+        }, ec.current());
+    }
+
 }
 
