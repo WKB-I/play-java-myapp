@@ -55,5 +55,26 @@ public class HomeController extends Controller {
             return redirect(routes.HomeController.index());
         }, ec.current());
     }
+
+    public CompletionStage<Result> edit(int id){
+        return personRepository.get(id).thenApplyAsync(p ->{
+            PersonForm form = new PersonForm(id);
+            form.setName(p.getName());
+            form.setMail(p.getMail());
+            form.setTel(p.getTel());
+            Form<PersonForm> formdata = personform.fill(form);
+            return ok(views.html.edit.render(
+                    "Edit Person", formdata, id
+            ));
+        }, ec.current());
+    }
+
+    public CompletionStage<Result> update(int id){
+        PersonForm form = formFactory.form(PersonForm.class).bindFromRequest().get();
+        PersonEntity person = new PersonEntity(id, form.getName(), form.getMail(), form.getTel());
+        return personRepository.update(person).thenApplyAsync(p -> {
+            return redirect(routes.HomeController.index());
+        }, ec.current());
+    }
 }
 

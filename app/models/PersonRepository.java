@@ -57,4 +57,15 @@ public class PersonRepository {
         em.persist(person);
         return person;
     }
+
+    public CompletionStage<PersonEntity> update(PersonEntity person){
+        return supplyAsync(
+                () -> withTransaction(em -> update(em, person)),
+                executionContext);
+    }
+
+    private PersonEntity update(EntityManager em, PersonEntity person){
+        em.merge(person);
+        return person;
+    }
 }
