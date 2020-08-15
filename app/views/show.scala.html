@@ -1,0 +1,11 @@
+@(message:String, data:PersonEntity, id:Int)
+
+@main("Index Page", "Hello", "copyright 2020."){
+    <p>@message</p>
+    <table>
+        <tr><th>ID</th><td>@data.getId</td></tr>
+        <tr><th>name</th><td>@data.getName</td></tr>
+        <tr><th>mail</th><td>@data.getMail</td></tr>
+        <tr><th>tel</th><td>@data.getTel</td></tr>
+    </table>
+}
