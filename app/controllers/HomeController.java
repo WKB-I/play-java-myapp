@@ -50,10 +50,19 @@ public class HomeController extends Controller {
     }
 
     public CompletionStage<Result> create(){
-        PersonEntity person = formFactory.form(PersonEntity.class).bindFromRequest().get();
-        return personRepository.add(person).thenApplyAsync(p -> {
-            return redirect(routes.HomeController.index());
-        }, ec.current());
+        Form form = formFactory.form(PersonEntity.class);
+        try {
+            PersonEntity person = formFactory.form(PersonEntity.class).bindFromRequest().get();
+            return personRepository.add(person).thenApplyAsync(p -> {
+                return redirect(routes.HomeController.index());
+            }, ec.current());
+        }catch (IllegalStateException e){
+            return personRepository.list().thenApplyAsync(p -> {
+                return ok(views.html.add.render(
+                        "ERROR!!",
+                        form.bindFromRequest()));
+            }, ec.current());
+        }
     }
 
     public CompletionStage<Result> edit(int id){

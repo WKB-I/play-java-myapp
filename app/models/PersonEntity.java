@@ -1,6 +1,9 @@
 package models;
 
+import play.data.validation.Constraints;
+
 import javax.persistence.*;
+import play.data.validation.Constraints.*;
 
 @Entity
 @Table(name = "people")
@@ -9,8 +12,12 @@ public class PersonEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Required
     private String name;
+    @Required
+    @Email
     private String mail;
+    @Required
     private String tel;
 
     public PersonEntity(){
