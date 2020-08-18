@@ -2,7 +2,6 @@ package controllers;
 
 import java.util.*;
 import java.util.concurrent.*;
-import java.util.stream.*;
 
 import javax.inject.*;
 
@@ -18,15 +17,19 @@ import static play.libs.Scala.asScala;
  */
 public class HomeController extends Controller {
     private final Form<PersonForm> personform;
-    private final FormFactory formFactory;
+    private final Form<MessageForm> messageform;
     private final PersonRepository personRepository;
+    private final MessageRepository messageRepository;
+    private final FormFactory formFactory;
     private final HttpExecutionContext ec;
 
     @Inject
-    public HomeController(FormFactory formFactory, PersonRepository personRepository, HttpExecutionContext ec){
+    public HomeController(FormFactory formFactory, PersonRepository personRepository, MessageRepository messageRepository, HttpExecutionContext ec){
         this.formFactory = formFactory;
         this.personform = formFactory.form(PersonForm.class);
+        this.messageform = formFactory.form(MessageForm.class);
         this.personRepository = personRepository;
+        this.messageRepository = messageRepository;
         this.ec = ec;
     }
 
@@ -116,6 +119,29 @@ public class HomeController extends Controller {
                 "find word：" + find, form, p
             ));
         }, ec.current());
+    }
+
+    public CompletionStage<Result> message(){
+        return messageRepository.list().thenApplyAsync(messagelist ->{
+            return ok(views.html.message.render("Message List.", messageform, messagelist));
+        }, ec.current());
+    }
+
+    public CompletionStage<Result> addmessage(){
+        Form form = formFactory.form(MessageEntity.class);
+        try {
+            MessageEntity message = formFactory.form(MessageEntity.class).bindFromRequest().get();
+            return messageRepository.add(message).thenApplyAsync(p -> {
+                flash("success", "メッセージを投稿しました！");
+                return redirect(routes.HomeController.message());
+            }, ec.current());
+        }catch (IllegalStateException e){
+            return messageRepository.list().thenApplyAsync(p -> {
+                return ok(views.html.message.render(
+                        "ERROR!!",
+                        form.bindFromRequest(), p));
+            }, ec.current());
+        }
     }
 
 }

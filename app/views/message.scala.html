@@ -1,0 +1,21 @@
+@(msg:String, form:Form[MessageForm], data:List[MessageEntity])
+
+@main("Messages", "MSG", "copyright 2020."){
+    @if(flash.containsKey("success")){
+        <p>@flash.get("success")</p>
+    }else{
+        <p>@msg</p>
+    }
+    @helper.form(action=routes.HomeController.addmessage()){
+        @helper.CSRF.formField
+        @helper.inputText(form("personId"))
+        @helper.inputText(form("message"))
+        <input type="submit" value="Add Message"/>
+    }
+    <hr>
+    <ul>
+        @for(item <- data){
+            <li>@item</li>
+        }
+    </ul>
+}

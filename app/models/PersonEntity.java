@@ -5,6 +5,9 @@ import play.data.validation.Constraints;
 import javax.persistence.*;
 import play.data.validation.Constraints.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "people")
 public class PersonEntity {
@@ -12,13 +15,19 @@ public class PersonEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Required
+    @Required(message = "nameは必須項目です。")
+    @MinLength(value = 3, message = "3文字以上入力してください。")
+    @MaxLength(value = 10, message = "10文字以内にしてください。")
     private String name;
-    @Required
-    @Email
+    @Required(message = "mailは必須項目です。")
+    @Email(message = "メールアドレスを入力してください。")
     private String mail;
-    @Required
+    @Required(message = "telは必須項目です。")
+    @Pattern(value = "[0-9- ]+", message = "半角英数字とハイフンのみ入力可能です。")
     private String tel;
+
+    @OneToMany(mappedBy = "person")
+    public List<MessageEntity> messages = new ArrayList<MessageEntity>();
 
     public PersonEntity(){
         super();
@@ -62,6 +71,10 @@ public class PersonEntity {
 
     @Override
     public String toString(){
-        return id + ": " + name + " [" + mail + ", " + tel +"]";
+        String list = "<div><ul>";
+        for(MessageEntity entity: messages){
+            list += "<li>" + entity.getMessage() + "</li>";
+        }
+        return "<b>" + id + ": " + name + "</b> ("  + mail + ", " + tel + ") " + list;
     }
 }
