@@ -5,4 +5,4 @@ addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.7.3")
 // http://www.foundweekends.org/giter8/scaffolding.html
 // sbt "g8Scaffold form"
 
-//addSbtPlugin("com.typesafe.play" % "sbt-play-ebean" % "4.1.3")
+addSbtPlugin("com.payintech" % "sbt-play-ebean" % "19.10u1")

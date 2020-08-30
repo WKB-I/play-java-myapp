@@ -26,7 +26,7 @@ public class PersonEntity {
     @Pattern(value = "[0-9- ]+", message = "半角英数字とハイフンのみ入力可能です。")
     private String tel;
 
-    @OneToMany(mappedBy = "person")
+    @OneToMany(mappedBy = "person", fetch = FetchType.EAGER)
     public List<MessageEntity> messages = new ArrayList<MessageEntity>();
 
     public PersonEntity(){

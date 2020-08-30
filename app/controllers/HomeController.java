@@ -9,6 +9,7 @@ import models.*;
 import play.mvc.*;
 import play.data.*;
 import play.libs.concurrent.*;
+//import io.ebean.*;
 
 import static play.libs.Scala.asScala;
 /**
@@ -130,13 +131,16 @@ public class HomeController extends Controller {
     public CompletionStage<Result> addmessage(){
         Form form = formFactory.form(MessageEntity.class);
         try {
-            MessageEntity message = formFactory.form(MessageEntity.class).bindFromRequest().get();
+            MessageForm msgForm = (MessageForm)form.bindFromRequest().get();
+            PersonEntity person = (PersonEntity) messageRepository.get(msgForm.getPersonId());
+            MessageEntity message = new MessageEntity(0, person, msgForm.getMessage());
             return messageRepository.add(message).thenApplyAsync(p -> {
                 flash("success", "メッセージを投稿しました！");
                 return redirect(routes.HomeController.message());
             }, ec.current());
         }catch (IllegalStateException e){
             return messageRepository.list().thenApplyAsync(p -> {
+                //Form inputForm = formFactory.form(MessageEntity.class);
                 return ok(views.html.message.render(
                         "ERROR!!",
                         form.bindFromRequest(), p));
