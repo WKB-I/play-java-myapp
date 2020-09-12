@@ -9,7 +9,7 @@ import models.*;
 import play.mvc.*;
 import play.data.*;
 import play.libs.concurrent.*;
-//import io.ebean.*;
+import io.ebean.*;
 
 import static play.libs.Scala.asScala;
 /**
@@ -18,28 +18,43 @@ import static play.libs.Scala.asScala;
  */
 public class HomeController extends Controller {
     private final Form<PersonForm> personform;
-    private final Form<MessageForm> messageform;
+    //private final Form<MessageForm> messageform;
     private final PersonRepository personRepository;
-    private final MessageRepository messageRepository;
+    //private final MessageRepository messageRepository;
     private final FormFactory formFactory;
-    private final HttpExecutionContext ec;
+    //private final HttpExecutionContext ec;
 
-    @Inject
+/*    @Inject
     public HomeController(FormFactory formFactory, PersonRepository personRepository, MessageRepository messageRepository, HttpExecutionContext ec){
         this.formFactory = formFactory;
         this.personform = formFactory.form(PersonForm.class);
-        this.messageform = formFactory.form(MessageForm.class);
+        //this.messageform = formFactory.form(MessageForm.class);
         this.personRepository = personRepository;
-        this.messageRepository = messageRepository;
-        this.ec = ec;
+        //this.messageRepository = messageRepository;
+        //this.ec = ec;
+    }*/
+
+    @Inject
+    public HomeController(FormFactory formFactory, PersonRepository personRepository){
+        this.formFactory = formFactory;
+        this.personform = formFactory.form(PersonForm.class);
+        this.personRepository = personRepository;
     }
 
-    public CompletionStage<Result> index(){
+    public Result index(){
+        return ok(views.html.index.render(
+                "People List",
+                personRepository.list()
+        ));
+    }
+
+/*    public CompletionStage<Result> index(){
         return personRepository.list().thenApplyAsync(personlist ->{
             return ok(views.html.index.render("People List.", personlist));
         }, ec.current());
-    }
+    }*/
 
+/*
     public CompletionStage<Result> show(int id){
         return personRepository.get(id).thenApplyAsync(p ->{
             return ok(views.html.show.render("Show Person", p, id));
@@ -52,8 +67,9 @@ public class HomeController extends Controller {
                 personform
                 ));
     }
+*/
 
-    public CompletionStage<Result> create(){
+/*    public CompletionStage<Result> create(){
         Form form = formFactory.form(PersonEntity.class);
         try {
             PersonEntity person = formFactory.form(PersonEntity.class).bindFromRequest().get();
@@ -67,7 +83,8 @@ public class HomeController extends Controller {
                         form.bindFromRequest()));
             }, ec.current());
         }
-    }
+    }*/
+/*
 
     public CompletionStage<Result> edit(int id){
         return personRepository.get(id).thenApplyAsync(p ->{
@@ -121,8 +138,9 @@ public class HomeController extends Controller {
             ));
         }, ec.current());
     }
+*/
 
-    public CompletionStage<Result> message(){
+/*    public CompletionStage<Result> message(){
         return messageRepository.list().thenApplyAsync(messagelist ->{
             return ok(views.html.message.render("Message List.", messageform, messagelist));
         }, ec.current());
@@ -146,7 +164,7 @@ public class HomeController extends Controller {
                         form.bindFromRequest(), p));
             }, ec.current());
         }
-    }
+    }*/
 
 }
 

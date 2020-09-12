@@ -6,12 +6,23 @@ import java.util.function.*;
 import javax.inject.*;
 import javax.persistence.*;
 
+import io.ebean.Ebean;
+import io.ebean.EbeanServer;
+import io.ebean.Finder;
 import models.jdatabase.DatabaseExecutionContext;
 import play.db.jpa.*;
 
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 
 public class PersonRepository {
+
+    public EbeanServer ebean;
+    public static Finder<Integer, PersonEntity> find = new Finder<Integer, PersonEntity>(PersonEntity.class);
+
+    public PersonRepository(){
+        this.ebean = Ebean.getDefaultServer();
+    }
+
     private JPAApi jpaApi;
     private DatabaseExecutionContext executionContext;
 
@@ -26,7 +37,11 @@ public class PersonRepository {
         return jpaApi.withTransaction(function);
     }
 
-    public CompletionStage<List<PersonEntity>> list() {
+    public List<PersonEntity> list(){
+        return find.all();
+    }
+
+/*    public CompletionStage<List<PersonEntity>> list() {
         return supplyAsync(
                 () -> withTransaction(em -> list(em)),
                 executionContext);
@@ -34,7 +49,7 @@ public class PersonRepository {
 
     private List<PersonEntity> list(EntityManager em){
         return em.createQuery("select p from PersonEntity p", PersonEntity.class).getResultList();
-    }
+    }*/
 
     public CompletionStage<PersonEntity> get(int id){
         return supplyAsync(

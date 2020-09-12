@@ -8,9 +8,11 @@ import play.data.validation.Constraints.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.ebean.*;
+
 @Entity
 @Table(name = "people")
-public class PersonEntity {
+public class PersonEntity extends Model{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
